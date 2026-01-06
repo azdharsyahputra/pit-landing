@@ -1,9 +1,9 @@
 ---
 const base = import.meta.env.BASE_URL; // e.g. "/pit-landing/"
 const links = [
-  { href: "", label: "Home" },
-  { href: "docs/", label: "Docs" },
-  { href: "sponsorship/", label: "Sponsorship" },
+  { href: "/", label: "Home" },
+  { href: "/docs", label: "Docs" },
+  { href: "/sponsorship", label: "Sponsorship" },
 ];
 
 const path = Astro.url.pathname;
@@ -55,10 +55,10 @@ const isActive = (p: string) => {
 
     <!-- Actions -->
     <div class="flex items-center gap-2">
-      <a class="pit-btn pit-btn-ghost hidden sm:inline-flex" href={withBase("docs/")}>
+      <a class="pit-btn pit-btn-ghost hidden sm:inline-flex" href={withBase("/docs")}>
         Get started
       </a>
-      <a class="pit-btn pit-btn-primary" href={withBase("sponsorship/")}>
+      <a class="pit-btn pit-btn-primary" href={withBase("/sponsorship")}>
         Sponsor
       </a>
     </div>
