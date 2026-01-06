@@ -1,0 +1,70 @@
+---
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/docs", label: "Docs" },
+  { href: "/sponsorship", label: "Sponsorship" },
+];
+
+const path = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 border-b border-white/10 bg-black/50 backdrop-blur-md">
+  <div class="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+    <!-- Brand -->
+    <a href="/" class="group flex items-center gap-3">
+      <div class="relative h-9 w-9 overflow-hidden rounded-xl border border-white/12 bg-white/5 pit-glow">
+        <div class="absolute inset-0 bg-gradient-to-br from-red-500/60 via-red-500/10 to-transparent"></div>
+        <div class="absolute -left-4 top-1/2 h-12 w-12 -translate-y-1/2 rotate-12 bg-white/10"></div>
+      </div>
+      <div class="leading-tight">
+        <div class="text-sm font-extrabold tracking-wide">
+          PIT <span class="text-red-400">ENGINE</span>
+        </div>
+        <div class="text-xs text-zinc-400">Build. Run. Control.</div>
+      </div>
+    </a>
+
+    <!-- Primary Nav -->
+    <nav class="hidden items-center gap-1 md:flex">
+      {links.map((l) => {
+        const active =
+          l.href === "/"
+            ? path === "/"
+            : path.startsWith(l.href);
+
+        return (
+          <a
+            href={l.href}
+            class={`relative rounded-xl px-3 py-2 text-sm font-semibold transition
+              ${
+                active
+                  ? "text-white"
+                  : "text-zinc-300 hover:text-white"
+              }`}
+          >
+            {l.label}
+            {active && (
+              <span class="absolute inset-x-2 -bottom-1 h-[2px] rounded-full bg-red-500"></span>
+            )}
+          </a>
+        );
+      })}
+    </nav>
+
+    <!-- Actions -->
+    <div class="flex items-center gap-2">
+      <a
+        class="pit-btn pit-btn-ghost hidden sm:inline-flex"
+        href="/docs"
+      >
+        Get started
+      </a>
+      <a
+        class="pit-btn pit-btn-primary"
+        href="/sponsorship"
+      >
+        Sponsor
+      </a>
+    </div>
+  </div>
+</header>

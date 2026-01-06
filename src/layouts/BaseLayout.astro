@@ -1,0 +1,40 @@
+---
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+type Container = "default" | "wide" | "full";
+
+const {
+  title = "PIT",
+  description = "PIT — Local dev environment, built for speed.",
+  container = "default" as Container,
+} = Astro.props;
+
+const containerClass =
+  container === "full"
+    ? "max-w-none"
+    : container === "wide"
+      ? "max-w-[1400px]"
+      : "max-w-6xl";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+
+  <body class="pit-grid">
+    <div class="min-h-screen">
+      <Nav />
+      <main class={`mx-auto w-full ${containerClass} px-4 sm:px-6 lg:px-8`}>
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>

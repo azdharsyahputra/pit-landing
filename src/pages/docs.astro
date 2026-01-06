@@ -1,0 +1,367 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const nav = [
+  { group: "Getting Started", items: [
+    { href: "#what-is", label: "What is PIT" },
+    { href: "#status", label: "Project status" },
+    { href: "#quickstart", label: "Quickstart (Linux dev)" },
+  ]},
+  { group: "Guides", items: [
+    { href: "#user-guide", label: "User guide" },
+    { href: "#runtime", label: "Runtime layout" },
+    { href: "#tools", label: "Tools runtime" },
+    { href: "#nginx", label: "Nginx integration" },
+    { href: "#php-fpm", label: "PHP-FPM integration" },
+  ]},
+  { group: "Configuration", items: [
+    { href: "#config", label: "engine.json" },
+    { href: "#paths", label: "Paths & sockets" },
+    { href: "#logs", label: "Logs & troubleshooting" },
+  ]},
+  { group: "FAQ", items: [
+    { href: "#faq", label: "FAQ" },
+  ]},
+];
+
+const toc = [
+  { href: "#what-is", label: "What is PIT" },
+  { href: "#quickstart", label: "Quickstart" },
+  { href: "#runtime", label: "Runtime layout" },
+  { href: "#config", label: "engine.json" },
+  { href: "#faq", label: "FAQ" },
+];
+
+const engineJson = `{
+  "basePath": "/home/your-user/pit",
+  "httpPort": 80,
+  "projectsDir": "/home/your-user/code",
+  "php": {
+    "default": "8.3",
+    "projectSocket": "/runtime/php/php-fpm.sock",
+    "toolsSocket": "/runtime/_tools/php/php-fpm.sock"
+  },
+  "nginx": {
+    "confDir": "/nginx/conf",
+    "includeProjects": "/nginx/conf.d/projects/*.conf",
+    "includeTools": "/nginx/conf.d/tools/*.conf"
+  }
+}`;
+---
+
+<BaseLayout title="PIT Docs" description="Docs for PIT: install, commands, configuration, and FAQ.">
+  <!-- Header -->
+  <section class="mt-10">
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="pit-pill">
+        <span class="inline-block h-2 w-2 rounded-full bg-red-500"></span>
+        Docs
+      </span>
+      <span class="pit-pill">Linux-first development</span>
+      <span class="pit-pill">Build. Run. Control.</span>
+    </div>
+
+    <h1 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">Documentation</h1>
+    <p class="mt-2 max-w-3xl text-sm text-zinc-300 sm:text-base">
+      PIT is a Linux-first local dev environment engine. This documentation focuses on what already exists and what’s stable:
+      runtime layout, sockets, and clean start/stop behavior.
+    </p>
+
+    <div class="mt-6 h-[2px] w-full pit-telemetry opacity-70"></div>
+  </section>
+
+  <!-- Full-width layout (wider than landing) -->
+  <div class="mx-auto mt-8 w-full max-w-[1400px]">
+    <div class="grid gap-6 lg:grid-cols-[280px_1fr]">
+      <!-- Left Sidebar -->
+      <aside class="pit-card pit-card-strong sticky top-24 hidden h-[calc(100vh-7rem)] overflow-auto p-4 lg:block">
+        <div class="text-xs font-extrabold text-zinc-400">NAVIGATION</div>
+
+        <nav class="mt-4 space-y-5">
+          {nav.map((g) => (
+            <div>
+              <div class="text-xs font-extrabold tracking-wide text-red-300">{g.group}</div>
+              <div class="mt-2 space-y-1">
+                {g.items.map((it) => (
+                  <a
+                    href={it.href}
+                    class="block rounded-xl px-3 py-2 text-sm font-semibold text-zinc-300 hover:bg-white/5 hover:text-white"
+                  >
+                    {it.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </nav>
+
+        <div class="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4">
+          <div class="text-xs font-extrabold text-zinc-300">Tip</div>
+          <p class="mt-1 text-xs text-zinc-400">
+            Keep sections short. Prefer copy-paste blocks over long paragraphs.
+          </p>
+        </div>
+      </aside>
+
+      <!-- Main Content + Right TOC inside content (no empty side) -->
+      <div class="min-w-0">
+
+        <!-- What is -->
+        <section id="what-is" class="scroll-mt-28">
+          <div class="pit-card pit-card-strong p-6">
+            <h2 class="text-xl font-black tracking-tight">What is PIT</h2>
+            <p class="mt-2 text-sm text-zinc-300">
+              PIT is a portable local dev engine that orchestrates services like Nginx and PHP-FPM with a strict focus on:
+              <span class="text-white font-semibold"> predictable runtime paths</span>,
+              <span class="text-white font-semibold"> stable sockets</span>, and
+              <span class="text-white font-semibold"> clean start/stop</span>.
+            </p>
+
+            <div class="mt-5 grid gap-3 sm:grid-cols-3">
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <div class="text-xs text-zinc-400">Control</div>
+                <div class="mt-1 text-sm font-extrabold">Lifecycle hygiene</div>
+                <div class="mt-1 text-xs text-zinc-400">No zombie processes.</div>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <div class="text-xs text-zinc-400">Isolation</div>
+                <div class="mt-1 text-sm font-extrabold">Projects vs tools</div>
+                <div class="mt-1 text-xs text-zinc-400">Separate sockets & runtime.</div>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <div class="text-xs text-zinc-400">Predictability</div>
+                <div class="mt-1 text-sm font-extrabold">Paths & logs</div>
+                <div class="mt-1 text-xs text-zinc-400">Deterministic cleanup.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Status -->
+        <section id="status" class="mt-6 scroll-mt-28">
+          <div class="pit-card pit-card-strong p-6">
+            <h2 class="text-xl font-black tracking-tight">Project status</h2>
+            <p class="mt-2 text-sm text-zinc-300">
+              This documentation intentionally avoids promises. Only include what your current engine actually supports.
+            </p>
+            <div class="mt-4 grid gap-3 sm:grid-cols-2">
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <div class="text-xs text-zinc-400">Current focus</div>
+                <div class="mt-1 text-sm font-extrabold">Linux development</div>
+                <div class="mt-1 text-xs text-zinc-400">Stable runtime + sockets + service control.</div>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <div class="text-xs text-zinc-400">Docs policy</div>
+                <div class="mt-1 text-sm font-extrabold">No fake installers</div>
+                <div class="mt-1 text-xs text-zinc-400">No “curl | bash” until it exists.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Quickstart (Linux dev) -->
+        <section id="quickstart" class="mt-6 scroll-mt-28">
+          <div class="pit-card pit-card-strong p-6">
+            <h2 class="text-xl font-black tracking-tight">Quickstart (Linux dev)</h2>
+            <p class="mt-2 text-sm text-zinc-300">
+              Generic, valid steps for a Go-based engine on Linux. Adjust names/paths to your repo structure.
+            </p>
+
+            <div class="mt-5 rounded-2xl border border-white/10 bg-black/45 p-4">
+              <pre class="overflow-x-auto text-[12px] leading-relaxed text-zinc-200"><code><span class="text-zinc-500">$</span> git clone &lt;https://github.com/azdharsyahputra/pit.git&gt;
+<span class="text-zinc-500">$</span> cd pit
+<span class="text-zinc-500">$</span> go mod tidy
+<span class="text-zinc-500">$</span> go run ./cmd/pit up
+
+<span class="text-zinc-500"># when done</span>
+<span class="text-zinc-500">$</span> go run ./cmd/pit down</code></pre>
+            </div>
+
+            <div class="mt-4 text-xs text-zinc-500">
+              If you ship a binary later, replace <span class="text-zinc-300 font-semibold">go run</span> with <span class="text-zinc-300 font-semibold">./pit</span>.
+            </div>
+          </div>
+        </section>
+
+        <!-- User Guide -->
+        <section id="user-guide" class="mt-10 scroll-mt-28">
+          <h2 class="text-xl font-black tracking-tight">User guide</h2>
+          <p class="mt-2 text-sm text-zinc-300">
+            Core concepts that matter for stability and day-to-day workflow.
+          </p>
+
+          <div class="mt-4 grid gap-4 md:grid-cols-2">
+            <div id="runtime" class="pit-card pit-card-strong p-6 scroll-mt-28">
+              <h3 class="text-sm font-extrabold text-red-300">Runtime layout</h3>
+              <p class="mt-2 text-sm text-zinc-300">
+                PIT should own a single runtime directory for all generated files: sockets, logs, and process state.
+              </p>
+              <div class="mt-4 rounded-2xl border border-white/10 bg-black/45 p-4">
+                <pre class="overflow-x-auto text-[12px] leading-relaxed text-zinc-200"><code>runtime/
+  nginx/
+  php/
+  _tools/
+    php/
+logs/</code></pre>
+              </div>
+            </div>
+
+            <div id="tools" class="pit-card pit-card-strong p-6 scroll-mt-28">
+              <h3 class="text-sm font-extrabold text-red-300">Tools runtime</h3>
+              <p class="mt-2 text-sm text-zinc-300">
+                Tools should not share pools/sockets with projects. Keep them isolated to prevent coupling.
+              </p>
+              <div class="mt-4 rounded-2xl border border-white/10 bg-black/45 p-4">
+                <pre class="overflow-x-auto text-[12px] leading-relaxed text-zinc-200"><code>runtime/_tools/php/php-fpm.sock</code></pre>
+              </div>
+            </div>
+
+            <div id="nginx" class="pit-card pit-card-strong p-6 scroll-mt-28">
+              <h3 class="text-sm font-extrabold text-red-300">Nginx integration</h3>
+              <p class="mt-2 text-sm text-zinc-300">
+                Keep Nginx config predictable by using include directories owned by PIT.
+              </p>
+              <div class="mt-4 rounded-2xl border border-white/10 bg-black/45 p-4">
+                <pre class="overflow-x-auto text-[12px] leading-relaxed text-zinc-200"><code>include conf.d/projects/*.conf;
+include conf.d/tools/*.conf;</code></pre>
+              </div>
+            </div>
+
+            <div id="php-fpm" class="pit-card pit-card-strong p-6 scroll-mt-28">
+              <h3 class="text-sm font-extrabold text-red-300">PHP-FPM integration</h3>
+              <p class="mt-2 text-sm text-zinc-300">
+                Use Unix sockets for local development. Separate sockets for projects vs tools.
+              </p>
+              <div class="mt-4 rounded-2xl border border-white/10 bg-black/45 p-4">
+                <pre class="overflow-x-auto text-[12px] leading-relaxed text-zinc-200"><code>runtime/php/php-fpm.sock
+runtime/_tools/php/php-fpm.sock</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Configuration -->
+        <section id="config" class="mt-10 scroll-mt-28">
+          <h2 class="text-xl font-black tracking-tight">Configuration</h2>
+          <p class="mt-2 text-sm text-zinc-300">
+            Keep configuration small and opinionated. One source of truth: <span class="text-white font-semibold">engine.json</span>.
+          </p>
+
+          <div class="mt-4 grid gap-4 md:grid-cols-2">
+            <div class="pit-card pit-card-strong p-6">
+              <h3 class="text-sm font-extrabold text-red-300">engine.json (example)</h3>
+              <p class="mt-2 text-sm text-zinc-300">
+                This is an example schema. Only keep fields you actually implement.
+              </p>
+              <div class="mt-4 rounded-2xl border border-white/10 bg-black/45 p-4">
+                <pre class="overflow-x-auto text-[12px] leading-relaxed text-zinc-200"><code>{engineJson}</code></pre>
+              </div>
+            </div>
+
+            <div id="paths" class="pit-card pit-card-strong p-6 scroll-mt-28">
+              <h3 class="text-sm font-extrabold text-red-300">Paths & sockets</h3>
+              <p class="mt-2 text-sm text-zinc-300">
+                PIT should generate and own all sockets under runtime so cleanup is deterministic.
+              </p>
+              <ul class="mt-4 space-y-2 text-sm text-zinc-300">
+                <li class="flex gap-2"><span class="text-red-300">•</span> Project socket: <span class="font-semibold text-white">runtime/php/php-fpm.sock</span></li>
+                <li class="flex gap-2"><span class="text-red-300">•</span> Tools socket: <span class="font-semibold text-white">runtime/_tools/php/php-fpm.sock</span></li>
+                <li class="flex gap-2"><span class="text-red-300">•</span> Prefer unix sockets for local dev.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Logs -->
+        <section id="logs" class="mt-10 scroll-mt-28">
+          <div class="pit-card pit-card-strong p-6">
+            <h2 class="text-xl font-black tracking-tight">Logs & troubleshooting</h2>
+            <p class="mt-2 text-sm text-zinc-300">
+              Keep logs boring and searchable. Two places matter: Nginx error log and PHP-FPM log.
+            </p>
+
+            <div class="mt-4 grid gap-3 md:grid-cols-2">
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <div class="text-xs text-zinc-400">Common issue</div>
+                <div class="mt-1 text-sm font-extrabold">Permission denied in runtime</div>
+                <p class="mt-2 text-sm text-zinc-300">
+                  Ensure PIT creates runtime folders with correct ownership. Avoid mixing sudo and user runs.
+                </p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <div class="text-xs text-zinc-400">Common issue</div>
+                <div class="mt-1 text-sm font-extrabold">Bad gateway</div>
+                <p class="mt-2 text-sm text-zinc-300">
+                  Usually means Nginx can’t reach the PHP-FPM socket. Verify socket path and file permissions.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="mt-10 scroll-mt-28">
+          <h2 class="text-xl font-black tracking-tight">FAQ</h2>
+          <p class="mt-2 text-sm text-zinc-300">
+            Short answers. No marketing fluff.
+          </p>
+
+          <div class="mt-4 grid gap-3">
+            <details class="pit-card pit-card-strong p-5">
+              <summary class="cursor-pointer list-none text-sm font-extrabold">
+                <span class="text-red-300">Q.</span> Why PIT instead of XAMPP/Laragon?
+              </summary>
+              <p class="mt-3 text-sm text-zinc-300">
+                <span class="text-red-300">A.</span> PIT focuses on lifecycle hygiene and predictability: stable runtime paths, strict socket separation,
+                and clean start/stop behavior. The goal is fewer “mysterious states” during development.
+              </p>
+            </details>
+
+            <details class="pit-card pit-card-strong p-5">
+              <summary class="cursor-pointer list-none text-sm font-extrabold">
+                <span class="text-red-300">Q.</span> Does PIT support Windows/macOS?
+              </summary>
+              <p class="mt-3 text-sm text-zinc-300">
+                <span class="text-red-300">A.</span> The current focus is Linux development. Other platforms will be documented only when they are truly supported.
+              </p>
+            </details>
+
+            <details class="pit-card pit-card-strong p-5">
+              <summary class="cursor-pointer list-none text-sm font-extrabold">
+                <span class="text-red-300">Q.</span> Why use Unix sockets for PHP-FPM?
+              </summary>
+              <p class="mt-3 text-sm text-zinc-300">
+                <span class="text-red-300">A.</span> For local dev, sockets are fast and avoid port collisions. PIT uses predictable socket paths so routing stays stable.
+              </p>
+            </details>
+
+            <details class="pit-card pit-card-strong p-5">
+              <summary class="cursor-pointer list-none text-sm font-extrabold">
+                <span class="text-red-300">Q.</span> I got “permission denied” in runtime. What should I do?
+              </summary>
+              <p class="mt-3 text-sm text-zinc-300">
+                <span class="text-red-300">A.</span> Make sure the runtime directory is owned by your user. Avoid running PIT with sudo sometimes and non-sudo other times.
+              </p>
+            </details>
+          </div>
+        </section>
+
+        <!-- Footer CTA -->
+        <section class="mt-10 mb-10">
+          <div class="pit-card pit-card-strong p-6">
+            <div class="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+              <div>
+                <div class="text-sm font-extrabold">Back to the pit wall</div>
+                <p class="mt-1 text-sm text-zinc-300">Return to the landing page or support development.</p>
+              </div>
+              <div class="flex gap-2">
+                <a href="/" class="pit-btn pit-btn-ghost">Home</a>
+                <a href="/sponsorship" class="pit-btn pit-btn-primary">Sponsor</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

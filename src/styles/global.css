@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+
+  --pit-bg: #07070a;
+  --pit-bg2: #0b0b10;
+  --pit-fg: #f4f4f5;
+
+  --pit-red: #ff2b2b;
+  --pit-red2: #ff4d4d;
+  --pit-red-glow: rgba(255, 43, 43, 0.22);
+
+  --pit-border: rgba(255, 255, 255, 0.10);
+  --pit-border2: rgba(255, 255, 255, 0.14);
+  --pit-surface: rgba(255, 255, 255, 0.04);
+  --pit-surface2: rgba(255, 255, 255, 0.06);
+
+  --pit-muted: #a1a1aa;
+}
+
+html, body { height: 100%; }
+
+body{
+  background: radial-gradient(1100px 600px at 25% -10%, rgba(255,43,43,.16), transparent 55%),
+              radial-gradient(900px 500px at 80% 0%, rgba(255,43,43,.10), transparent 50%),
+              linear-gradient(to bottom, var(--pit-bg), var(--pit-bg2));
+  color: var(--pit-fg);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: rgba(255, 43, 43, 0.35); }
+
+:focus-visible{
+  outline: 2px solid var(--pit-red);
+  outline-offset: 3px;
+}
+
+/* background grid */
+.pit-grid{
+  background-image:
+    radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+    linear-gradient(to right, rgba(255,43,43,.10), transparent 42%),
+    linear-gradient(to bottom, rgba(255,43,43,.10), transparent 42%);
+  background-size: 18px 18px, 100% 100%, 100% 100%;
+}
+
+/* Surface system */
+.pit-card{
+  border-radius: 1.25rem;
+  border: 1px solid var(--pit-border);
+  background: var(--pit-surface);
+  backdrop-filter: blur(14px);
+}
+
+.pit-card-strong{
+  border: 1px solid var(--pit-border2);
+  background: var(--pit-surface2);
+}
+
+.pit-glow{
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.05) inset,
+    0 0 70px var(--pit-red-glow);
+}
+
+/* Buttons */
+.pit-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.5rem;
+  padding:.65rem 1rem;
+  border-radius: .95rem;
+  font-size:.875rem;
+  font-weight:800;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+  user-select:none;
+}
+
+.pit-btn-primary{
+  background: linear-gradient(180deg, var(--pit-red2), var(--pit-red));
+  color:#050507;
+  box-shadow: 0 12px 26px rgba(255,43,43,.20);
+}
+
+.pit-btn-primary:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 16px 34px rgba(255,43,43,.26);
+}
+
+.pit-btn-ghost{
+  background: rgba(255,255,255,.04);
+  border:1px solid var(--pit-border);
+}
+
+.pit-btn-ghost:hover{
+  background: rgba(255,255,255,.07);
+  border-color: rgba(255,255,255,.16);
+  transform: translateY(-1px);
+}
+
+/* Pills */
+.pit-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  padding:.25rem .7rem;
+  border-radius: 999px;
+  font-size:.72rem;
+  font-weight:700;
+  border:1px solid var(--pit-border);
+  background: rgba(255,255,255,.04);
+  color: rgba(244,244,245,.92);
+}
+
+/* Checkered stripe */
+.pit-checkered{
+  background:
+    linear-gradient(90deg,
+      rgba(255,255,255,.16) 0 12px,
+      rgba(255,255,255,.02) 12px 24px
+    );
+  background-size: 24px 100%;
+  border:1px solid var(--pit-border);
+  border-radius:999px;
+}
+
+/* Telemetry line */
+.pit-telemetry{
+  background:
+    linear-gradient(90deg, transparent, rgba(255,43,43,.65), transparent),
+    linear-gradient(90deg, rgba(255,255,255,.08) 0 1px, transparent 1px);
+  background-size: 100% 100%, 18px 100%;
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}

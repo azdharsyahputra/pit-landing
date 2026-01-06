@@ -1,0 +1,193 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+
+const SPONSOR_URL = "#"; // TODO: replace with GitHub Sponsors / OpenCollective / Trakteer link
+---
+
+<BaseLayout title="PIT Sponsorship" description="Support PIT development and help the engine get faster, cleaner, and more reliable.">
+  <!-- Header -->
+  <section class="mt-10">
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="pit-pill">
+        <span class="inline-block h-2 w-2 rounded-full bg-red-500"></span>
+        Sponsorship
+      </span>
+      <span class="pit-pill">Keep the pit-lane running</span>
+    </div>
+
+    <h1 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+      Sponsor PIT
+    </h1>
+    <p class="mt-2 max-w-3xl text-sm text-zinc-300 sm:text-base">
+      If PIT helps your workflow, sponsorship keeps development fast and sustainable.
+      Your support goes directly into reliability, documentation, and the “boring” engineering that makes the engine feel instant.
+    </p>
+
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <a class="pit-btn pit-btn-primary" href={SPONSOR_URL}>Become a sponsor</a>
+      <a class="pit-btn pit-btn-ghost" href="/docs#faq">Read the FAQ</a>
+      <a class="pit-btn pit-btn-ghost" href="/docs">See the docs</a>
+    </div>
+
+    <div class="mt-6 h-[2px] w-full pit-telemetry opacity-70"></div>
+  </section>
+
+  <!-- Why sponsor -->
+  <Section
+    title="Why sponsor?"
+    desc="What you’re funding: stability, speed, and a predictable local environment."
+  >
+    <div class="grid gap-4 md:grid-cols-3">
+      <div class="pit-card pit-card-strong p-6">
+        <div class="text-sm font-extrabold">Reliability work</div>
+        <p class="mt-2 text-sm text-zinc-300">
+          Process cleanup, socket hygiene, crash-safe restarts, and boring fixes that prevent “mystery states”.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <span class="pit-pill">No zombies</span>
+          <span class="pit-pill">Stable sockets</span>
+          <span class="pit-pill">Deterministic cleanup</span>
+        </div>
+      </div>
+
+      <div class="pit-card pit-card-strong p-6">
+        <div class="text-sm font-extrabold">Docs & examples</div>
+        <p class="mt-2 text-sm text-zinc-300">
+          Copy-paste configs, real integration guides (CI4/Laravel), and clear troubleshooting steps.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <span class="pit-pill">Guides</span>
+          <span class="pit-pill">Troubleshooting</span>
+          <span class="pit-pill">Snippets</span>
+        </div>
+      </div>
+
+      <div class="pit-card pit-card-strong p-6">
+        <div class="text-sm font-extrabold">Direct feedback loop</div>
+        <p class="mt-2 text-sm text-zinc-300">
+          Sponsors influence priorities. If a feature saves real time, it gets pulled forward.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <span class="pit-pill">Feature votes</span>
+          <span class="pit-pill">Prioritization</span>
+          <span class="pit-pill">Quality-of-life</span>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Where the money goes -->
+  <Section
+    title="Where your sponsorship goes"
+    desc="Transparent, practical spending. No vague promises."
+  >
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="pit-card pit-card-strong p-6">
+        <div class="text-sm font-extrabold">Example roadmap funding</div>
+        <ul class="mt-3 space-y-2 text-sm text-zinc-300">
+          <li class="flex gap-2"><span class="text-red-300">•</span> Improve service lifecycle: start/stop reliability and cleanup</li>
+          <li class="flex gap-2"><span class="text-red-300">•</span> Better logs: structured folders, clearer errors, faster debugging</li>
+          <li class="flex gap-2"><span class="text-red-300">•</span> Docs: real configs, consistent terminology, fewer assumptions</li>
+          <li class="flex gap-2"><span class="text-red-300">•</span> Packaging (later): repeatable Linux releases when stable</li>
+        </ul>
+      </div>
+
+      <div class="pit-card pit-card-strong p-6">
+        <div class="text-sm font-extrabold">Concrete sponsor impact</div>
+        <p class="mt-2 text-sm text-zinc-300">
+          Example: a sponsor reports recurring <span class="text-white font-semibold">Bad Gateway</span> due to socket permissions.
+          Sponsorship helps prioritize:
+        </p>
+        <div class="mt-4 rounded-2xl border border-white/10 bg-black/45 p-4">
+          <pre class="overflow-x-auto text-[12px] leading-relaxed text-zinc-200"><code>- add "pit doctor" checks for socket path + permissions
+- improve error messages (nginx ↔ php-fpm connectivity)
+- fix runtime folder ownership + cleanup strategy</code></pre>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Sponsor tiers -->
+  <Section
+    title="Sponsor tiers"
+    desc="Simple tiers. Adjust pricing and benefits anytime."
+  >
+    <div class="grid gap-4 lg:grid-cols-3">
+      <div class="pit-card pit-card-strong p-6">
+        <div class="flex items-baseline justify-between gap-4">
+          <div class="text-sm font-extrabold">Crew</div>
+          <div class="text-sm text-red-300">$10 / month</div>
+        </div>
+        <p class="mt-2 text-sm text-zinc-300">
+          For individual devs who want PIT to keep improving.
+        </p>
+        <ul class="mt-4 space-y-2 text-sm text-zinc-300">
+          <li class="flex gap-2"><span class="text-red-300">•</span> Name in sponsor list (optional)</li>
+          <li class="flex gap-2"><span class="text-red-300">•</span> Early notes / changelog previews</li>
+        </ul>
+        <div class="mt-6">
+          <a class="pit-btn pit-btn-ghost w-full" href={SPONSOR_URL}>Become a sponsor</a>
+        </div>
+      </div>
+
+      <div class="pit-card pit-card-strong p-6 pit-glow">
+        <div class="flex items-baseline justify-between gap-4">
+          <div class="text-sm font-extrabold">Pit Crew Pro</div>
+          <div class="text-sm text-red-300">$50 / month</div>
+        </div>
+        <p class="mt-2 text-sm text-zinc-300">
+          For teams or serious users who want tighter feedback loops.
+        </p>
+        <ul class="mt-4 space-y-2 text-sm text-zinc-300">
+          <li class="flex gap-2"><span class="text-red-300">•</span> Logo in sponsor page (optional)</li>
+          <li class="flex gap-2"><span class="text-red-300">•</span> Priority feedback channel</li>
+          <li class="flex gap-2"><span class="text-red-300">•</span> Feature voting</li>
+        </ul>
+        <div class="mt-6">
+          <a class="pit-btn pit-btn-primary w-full" href={SPONSOR_URL}>Become a sponsor</a>
+        </div>
+      </div>
+
+      <div class="pit-card pit-card-strong p-6">
+        <div class="flex items-baseline justify-between gap-4">
+          <div class="text-sm font-extrabold">Team / Company</div>
+          <div class="text-sm text-red-300">Custom</div>
+        </div>
+        <p class="mt-2 text-sm text-zinc-300">
+          If PIT saves your team real time, sponsor at a level that makes sense.
+        </p>
+        <ul class="mt-4 space-y-2 text-sm text-zinc-300">
+          <li class="flex gap-2"><span class="text-red-300">•</span> Priority issues triage</li>
+          <li class="flex gap-2"><span class="text-red-300">•</span> Integration guidance (docs-first)</li>
+          <li class="flex gap-2"><span class="text-red-300">•</span> Public credit (optional)</li>
+        </ul>
+        <div class="mt-6">
+          <a class="pit-btn pit-btn-ghost w-full" href={SPONSOR_URL}>Contact / Sponsor</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 text-xs text-zinc-500">
+      You can host sponsorship on GitHub Sponsors, OpenCollective, or local platforms. Update <span class="text-zinc-300 font-semibold">SPONSOR_URL</span> when ready.
+    </div>
+  </Section>
+
+  <!-- Final CTA -->
+  <section class="mt-12 mb-10">
+    <div class="pit-card pit-card-strong p-6 sm:p-8 pit-glow">
+      <div class="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
+        <div>
+          <div class="text-lg font-black tracking-tight">Help PIT stay fast.</div>
+          <p class="mt-1 text-sm text-zinc-300">
+            Sponsor PIT and keep the engine improving — reliability, docs, and the details that matter.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <a class="pit-btn pit-btn-primary" href={SPONSOR_URL}>Become a sponsor</a>
+          <a class="pit-btn pit-btn-ghost" href="/docs">Read docs</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
