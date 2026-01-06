@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+const base = import.meta.env.BASE_URL;
 
 const nav = [
   { group: "Getting Started", items: [
@@ -355,8 +356,8 @@ runtime/_tools/php/php-fpm.sock</code></pre>
                 <p class="mt-1 text-sm text-zinc-300">Return to the landing page or support development.</p>
               </div>
               <div class="flex gap-2">
-                <a href="/" class="pit-btn pit-btn-ghost">Home</a>
-                <a href="/sponsorship" class="pit-btn pit-btn-primary">Sponsor</a>
+                <a href={base} class="pit-btn pit-btn-ghost">Home</a>
+                <a href={`${import.meta.env.BASE_URL}sponsorship/`}class="pit-btn pit-btn-primary">Sponsor</a>
               </div>
             </div>
           </div>
